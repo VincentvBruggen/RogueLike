@@ -1,29 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public int inventorySize = 5;
+    [SerializeField]
+    TextMeshProUGUI inventorySizeText;
+
     [SerializeField]
     private float width = 5f;
 
-    [SerializeField, MinMaxSlider(0f, 1f)]
+    [SerializeField, Range(5f, 20f)]
     private float lerpSpeed = 0.1f;
 
     List<CardBase> l_Cards = new List<CardBase>();
-    //Coroutine coroutine;
+
     void Start()
     {
-        StartCoroutine(AlignContent());
+
     }
 
     void Update()
     {
-        //if (coroutine == null) 
-        //{ 
-        //    coroutine = StartCoroutine(AlignContent());
-        //}
+
         //FOR DEBUGGING
         foreach (Transform cardObj in transform)
         {
@@ -33,40 +35,37 @@ public class Inventory : MonoBehaviour
                 l_Cards.Add(card.GetComponent<CardBase>());
             }
         }
+
+        inventorySizeText.text = l_Cards.Count.ToString();
+        AlignContent();
     }
 
-    private IEnumerator AlignContent()
+    private void AlignContent()
     {
-        while (true)
+
+        // If there is only 1 card in the inventory, place it in the center
+        if(l_Cards.Count <= 1)
         {
-            // If there is only 1 card in the inventory, place it in the center
-            if(l_Cards.Count <= 1)
+            foreach(CardBase card in l_Cards)
             {
-                foreach(CardBase card in l_Cards)
-                {
-                    card.transform.position = transform.position;
-                }
-                yield break;
+                card.transform.position = Vector3.Lerp(card.transform.position,
+                transform.position,
+                lerpSpeed * Time.deltaTime
+                );
             }
-
-            // Give all the cards an even spacing from each other
-            float lerpTimer = 0f;
-            while(lerpTimer < 1f)
-            {
-                float spacing = (GetMaxWidth().x - GetMinWidth().x) / (l_Cards.Count - 1);
-                for (int i = 0; i < l_Cards.Count; i++)
-                {
-                    Vector3.Lerp(l_Cards[i].transform.position,
-                        new Vector3(GetMinWidth().x + (spacing * i), transform.position.y, transform.position.z),
-                        lerpTimer
-                        );
-                }
-
-                lerpTimer += lerpSpeed;
-                yield return new WaitForSeconds(lerpSpeed);
-            }
-            yield return new WaitForSeconds(0.1f);
+            return;
         }
+
+        // Give all the cards an even spacing from each other
+
+        float spacing = (GetMaxWidth().x - GetMinWidth().x) / (l_Cards.Count - 1);
+        for (int i = 0; i < l_Cards.Count; i++)
+        {
+            l_Cards[i].transform.position = Vector3.Lerp(l_Cards[i].transform.position,
+                new Vector3(GetMinWidth().x + (spacing * i), transform.position.y, transform.position.z),
+                lerpSpeed * Time.deltaTime
+                );
+        }      
     }
 
     // Get the most left position from the field
