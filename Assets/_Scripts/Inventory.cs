@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IInventory
 {
+    [NonSerialized]
+    public List<CardBase> l_Cards = new List<CardBase>();
+
     public int inventorySize = 5;
+
     [SerializeField]
     TextMeshProUGUI inventorySizeText;
 
@@ -16,9 +21,17 @@ public class Inventory : MonoBehaviour
     [SerializeField, Range(5f, 20f)]
     private float lerpSpeed = 0.1f;
 
-    List<CardBase> l_Cards = new List<CardBase>();
 
     void Start()
+    {
+
+    }
+
+    void IInventory.Store()
+    {
+        l_Cards.Add(card);
+    }   
+    void IInventory.Remove()
     {
 
     }
@@ -36,7 +49,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        inventorySizeText.text = l_Cards.Count.ToString();
+        inventorySizeText.text = l_Cards.Count.ToString() + "/" + inventorySize.ToString();
         AlignContent();
     }
 

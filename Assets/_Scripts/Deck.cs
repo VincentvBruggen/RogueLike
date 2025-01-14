@@ -31,7 +31,16 @@ public class Deck : MonoBehaviour
 
     public void PullHand()
     {
-        StartCoroutine(Pull(hand.GetComponent<Inventory>().inventorySize));
+        Inventory handInv = hand.GetComponent<Inventory>();
+
+        if(handInv.l_Cards.Count <= handInv.inventorySize )
+        {
+            StartCoroutine(Pull(handInv.inventorySize - handInv.l_Cards.Count));
+        }
+        else
+        {
+            Debug.Log("hand full");
+        }
     }
 
     private IEnumerator Pull(int amount)
