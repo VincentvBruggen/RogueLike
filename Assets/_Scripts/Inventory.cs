@@ -27,11 +27,20 @@ public class Inventory : MonoBehaviour, IInventory
 
     }
 
-    void IInventory.Store()
+    void IInventory.Store(IStoreable storeable)
     {
-        l_Cards.Add(card);
+        storeable.StoreTo(transform);
+        
+        foreach (Transform cardObj in transform)
+        {
+            CardBase card = cardObj.GetComponent<CardBase>();
+            if (card != null && card != l_Cards.Contains(card))
+            {
+                l_Cards.Add(card);
+            }
+        }
     }   
-    void IInventory.Remove()
+    void IInventory.Remove(IStoreable storeable)
     {
 
     }
@@ -45,7 +54,7 @@ public class Inventory : MonoBehaviour, IInventory
             CardBase card = cardObj.GetComponent<CardBase>();
             if (card != null && card != l_Cards.Contains(card))
             {
-                l_Cards.Add(card.GetComponent<CardBase>());
+                l_Cards.Add(card);
             }
         }
 

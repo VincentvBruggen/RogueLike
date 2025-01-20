@@ -12,11 +12,16 @@ interface IDragable
 
 interface IStoreable
 {
-    Transform Owner { get; set; }
+    void StoreTo(Transform parent);
+}
+
+interface IBuyable
+{
+    void Buy();
 }
 
 interface IInventory
 {
-    public void Store();
-    public void Remove();
+    public void Store(IStoreable storeable);
+    public void Remove(IStoreable storeable);
 }

@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardBase : MonoBehaviour, IDragable
+public class CardBase : MonoBehaviour, IDragable, IStoreable
 {
     public bool isDragging { get; set; }
     
+    public Transform Owner {  get; set; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,7 +15,11 @@ public class CardBase : MonoBehaviour, IDragable
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    public void StoreTo(Transform parent)
+    {
+        transform.SetParent(parent);
     }
 
     public void Drag()
