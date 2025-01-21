@@ -17,6 +17,7 @@ public class CardBase : MonoBehaviour, IDragable, IStoreable
     {
     }
 
+    // a function for storing the card to an inventory
     public void StoreTo(Transform parent)
     {
         transform.SetParent(parent);
@@ -27,6 +28,7 @@ public class CardBase : MonoBehaviour, IDragable, IStoreable
         
     }
 
+    // a function for changing the overlap of the cards
     public void SetDrawOrder()
     {
         SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
@@ -35,5 +37,14 @@ public class CardBase : MonoBehaviour, IDragable, IStoreable
         {
 
         }
+    }
+
+    private void OnMouseDrag()
+    {
+        isDragging = true;
+    }
+    private void OnMouseUp()
+    {
+        isDragging = false;
     }
 }

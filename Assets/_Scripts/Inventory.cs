@@ -70,10 +70,14 @@ public class Inventory : MonoBehaviour, IInventory
         {
             foreach(CardBase card in l_Cards)
             {
-                card.transform.position = Vector3.Lerp(card.transform.position,
-                transform.position,
-                lerpSpeed * Time.deltaTime
-                );
+                if (!card.isDragging) // when a card is not being dragged
+                {
+                    card.transform.position = Vector3.Lerp(card.transform.position,
+                    transform.position,
+                    lerpSpeed * Time.deltaTime
+                    );
+                }
+                
             }
             return;
         }
@@ -83,10 +87,14 @@ public class Inventory : MonoBehaviour, IInventory
         float spacing = (GetMaxWidth().x - GetMinWidth().x) / (l_Cards.Count - 1);
         for (int i = 0; i < l_Cards.Count; i++)
         {
-            l_Cards[i].transform.position = Vector3.Lerp(l_Cards[i].transform.position,
+            if (!l_Cards[i].isDragging) // when a card is not being dragged 
+            {
+                l_Cards[i].transform.position = Vector3.Lerp(l_Cards[i].transform.position,
                 new Vector3(GetMinWidth().x + (spacing * i), transform.position.y, transform.position.z),
                 lerpSpeed * Time.deltaTime
                 );
+            }
+            
         }      
     }
 

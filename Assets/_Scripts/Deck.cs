@@ -18,6 +18,7 @@ public class Deck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // FOR DEBUGGING
         for (int i = 0; i < 8; i++)
         {
             s_Deck.Push(Instantiate(card, transform).GetComponent<CardBase>());
@@ -29,6 +30,7 @@ public class Deck : MonoBehaviour
         deckAmountText.text = s_Deck.Count.ToString();
     }
 
+    // keep pulling cards from the deck until the maximum handsize is reached
     public void PullHand()
     {
         Inventory handInv = hand.GetComponent<Inventory>();
@@ -43,6 +45,7 @@ public class Deck : MonoBehaviour
         }
     }
 
+    // pull a card from the deck 
     private IEnumerator Pull(int amount)
     {
         for (int i = 0; i < amount; i++)
