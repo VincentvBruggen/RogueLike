@@ -11,14 +11,14 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null )
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
+        //if (instance != null)
+        //{
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
             instance = this;
-        }
+        //}
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,5 +30,15 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SpawnEnemy()
+    {
+
+    }
+
+    public void Lost()
+    {
+
     }
 }

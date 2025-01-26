@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Creature : MonoBehaviour
 {
+    [Header("References")]
     private Rigidbody2D rb;
 
+    [Header("Attributes")]
     [SerializeField]
     private float moveSpeed = 2f;
 
@@ -11,22 +13,24 @@ public class Creature : MonoBehaviour
     private int pathIndex = 0;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
+
         rb = GetComponent<Rigidbody2D>();
         target = GameManager.instance.a_Path[pathIndex];
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         FindPath();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         // walk toward the target
         Vector2 direction = (target.position - transform.position).normalized;
+        Debug.DrawRay(transform.position, direction);
 
         rb.linearVelocity = direction * moveSpeed;
     }
@@ -35,7 +39,7 @@ public class Creature : MonoBehaviour
     private void FindPath()
     {
         // if the creature is at its target position, move to the next path
-        if(Vector2.Distance(transform.position, target.position) < 0.1f)
+        if(Vector2.Distance(transform.position, target.position) < 0.05f)
         {
             pathIndex++;
             target = GameManager.instance.a_Path[pathIndex];
