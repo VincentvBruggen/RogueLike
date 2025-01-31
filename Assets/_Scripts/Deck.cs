@@ -6,6 +6,8 @@ using TMPro;
 public class Deck : MonoBehaviour
 {
     [SerializeField]
+    GameObject[] cards;
+    [SerializeField]
     Transform hand;
 
     [SerializeField]
@@ -18,11 +20,11 @@ public class Deck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // FOR DEBUGGING
-        for (int i = 0; i < 8; i++)
-        {
-            s_Deck.Push(Instantiate(card, transform).GetComponent<CardBase>());
-        }
+        //// FOR DEBUGGING
+        //for (int i = 0; i < 8; i++)
+        //{
+        //    s_Deck.Push(Instantiate(card, transform).GetComponent<CardBase>());
+        //}
     }
     // Update is called once per frame
     void Update()
@@ -33,11 +35,12 @@ public class Deck : MonoBehaviour
     // keep pulling cards from the deck until the maximum handsize is reached
     public void PullHand()
     {
+        GameManager.instance.moneyAmount -= GameManager.instance.drawCost;
         Inventory handInv = hand.GetComponent<Inventory>();
 
         if(handInv.l_Cards.Count <= handInv.inventorySize )
         {
-            StartCoroutine(Pull(handInv.inventorySize - handInv.l_Cards.Count));
+            StartCoroutine(Pull(handInv.inventorySize));
         }
         else
         {
@@ -50,8 +53,12 @@ public class Deck : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            CardBase card = s_Deck.Pop();
+            //CardBase card = s_Deck.Pop();
+            int rand = Random.Range(0, 1);
 
+            GameObject cardObj = Instantiate(cards[rand]);
+            
+            CardBase card = cardObj.GetComponent<CardBase>();
             card.transform.SetParent(hand);
             yield return new WaitForSeconds(0.4f);
         }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CardBase : MonoBehaviour, IDragable, IStoreable
 {
+    public GameObject obj;
     public bool isDragging { get; set; }
     
     public Transform Owner {  get; set; }
@@ -23,9 +24,10 @@ public class CardBase : MonoBehaviour, IDragable, IStoreable
         transform.SetParent(parent);
     }
 
-    public void Drag()
+    public virtual void Drag()
     {
-        
+        GameManager.instance.cardToPlace = obj;
+        Destroy(gameObject);
     }
 
     // a function for changing the overlap of the cards
@@ -39,9 +41,9 @@ public class CardBase : MonoBehaviour, IDragable, IStoreable
         }
     }
 
-    private void OnMouseDrag()
+    private void OnMouseDown()
     {
-        isDragging = true;
+        Drag();
     }
     private void OnMouseUp()
     {

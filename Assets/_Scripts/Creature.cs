@@ -17,7 +17,7 @@ public class Creature : MonoBehaviour
     {
 
         rb = GetComponent<Rigidbody2D>();
-        target = GameManager.instance.a_Path[pathIndex];
+        target = GameManager.instance.l_Path[pathIndex];
     }
 
     // Update is called once per frame
@@ -42,10 +42,10 @@ public class Creature : MonoBehaviour
         if(Vector2.Distance(transform.position, target.position) < 0.05f)
         {
             pathIndex++;
-            target = GameManager.instance.a_Path[pathIndex];
+            target = GameManager.instance.l_Path[pathIndex];
 
             // if path point equals the tower
-            if (pathIndex == GameManager.instance.a_Path.Length)
+            if (pathIndex == GameManager.instance.l_Path.Count)
             {
                 // Damage the tower
                 Destroy(gameObject);
@@ -53,7 +53,7 @@ public class Creature : MonoBehaviour
             }
             else
             {
-                target = GameManager.instance.a_Path[pathIndex];
+                target = GameManager.instance.l_Path[pathIndex];
             }
         }
     }
